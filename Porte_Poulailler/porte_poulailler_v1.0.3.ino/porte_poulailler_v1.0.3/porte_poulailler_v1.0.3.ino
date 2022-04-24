@@ -25,7 +25,7 @@ int MotorPin2= 9; // Déclaration broche commande Bobine 2 moteur
 int MotorPin3= 10; // Déclaration broche commande Bobine 3 moteur
 int MotorPin4= 11; // Déclaration broche commande Bobine 4 moteur
 int Tour=0; // Déclaration variable pour gérer le nombre de tours du moteur
-int delayTime=10; // Vitesse d'ouverture et fermeture de la porte
+int delayTime=5; // Vitesse d'ouverture et fermeture de la porte
 
 int lightPin = 0;
 int etat = 0;
@@ -58,18 +58,18 @@ void loop() {
       Fermer_porte();
       //Serial.println("Fermeture porte");
       etat = 0;
-      delay(1000);
+      delay(21600000);
     }
   }
 
   if(etat==0){
-    if(reading >= 700) // seuil au-dessus duquel la porte ouvre
+    if(reading >= 300) // seuil au-dessus duquel la porte ouvre
     {
       Tour = 0 ; // remise à 0 des Tours
       Ouvrir_porte();
       //Serial.println("Ouverture porte");
       etat = 1;
-      delay(5000);
+      delay(36000000);
     }
   }
 }
