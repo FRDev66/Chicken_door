@@ -56,7 +56,7 @@ void loop() {
     {
       Tour = 0 ; // remise à 0 des Tours
       Fermer_porte();
-      //Serial.println("Fermeture porte");
+      Serial.println("Fermeture porte");
       etat = 0;
       delay(21600000);
     }
@@ -67,16 +67,17 @@ void loop() {
     {
       Tour = 0 ; // remise à 0 des Tours
       Ouvrir_porte();
-      //Serial.println("Ouverture porte");
+      Serial.println("Ouverture porte");
       etat = 1;
-      delay(36000000);
+      delay(360000);
     }
   }
 }
 
 // Séquence d'alimentation normale des bobines du moteur en Full Step
 void Fermer_porte(){
-  while(Tour <= 512){ // Equivaut à 1 tours
+  Serial.println(etat);
+  while(Tour <= 2048){ // Equivaut à 1 tours
     digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
     digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
     digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
@@ -102,12 +103,13 @@ void Fermer_porte(){
   }
   Serial.println("Porte Fermée"); // Affichage sur le moniteur série
   Arret();
+  etat=0;
 }
 
 
 // Séquence d'alimentation inverse des bobines du moteur en Full Step
 void Ouvrir_porte(){
-  while(Tour <= 512){ // équivaut à 1 tour
+  while(Tour <= 2048){ // équivaut à 1 tour
     digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
     digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
     digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
@@ -136,6 +138,8 @@ void Ouvrir_porte(){
   }
   Serial.println("Porte Ouverte"); // Affichage sur le moniteur série
   Arret();
+  etat=1;
+  Serial.println(etat);
 }
 
 // Fonction arrêt du moteur
