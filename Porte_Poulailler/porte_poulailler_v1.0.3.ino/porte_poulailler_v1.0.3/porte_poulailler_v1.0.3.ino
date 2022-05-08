@@ -69,7 +69,7 @@ void loop() {
       Ouvrir_porte();
       Serial.println("Ouverture porte");
       etat = 1;
-      delay(360000);
+      delay(25200000);
     }
   }
 }
