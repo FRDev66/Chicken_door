@@ -7,11 +7,11 @@
 // + Cellule photorésistance
 //####################################################################
 // Auteur : FRDev66
-// Date : 2022-08-06
-// version :2.0.0
+// Date : 2022-08-10
+// version :2.0.1
 // 
 // ChangeLog :
-// 
+// + [2.0.1] : Modification du nombre de Tours de rotation Ouvrir / Ferme du moteur --> de 4 à 6 Tours
 // 
 // ###################################################################
 
@@ -88,7 +88,7 @@ void loop() {
 // Séquence d'alimentation normale des bobines du moteur en Full Step
 void Fermer_porte(){
   Serial.println(etat);
-  while(Tour <= 2048){ // Equivaut à 4 tours
+  while(Tour <= 3072){ // Equivaut à 6 tours
     digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
     digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
     digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
@@ -121,7 +121,7 @@ void Fermer_porte(){
 
 // Séquence d'alimentation inverse des bobines du moteur en Full Step
 void Ouvrir_porte(){
-  while(Tour <= 2048){ // équivaut à 4 tours
+  while(Tour <= 3072){ // équivaut à 6 tours
     digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
     digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
     digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
