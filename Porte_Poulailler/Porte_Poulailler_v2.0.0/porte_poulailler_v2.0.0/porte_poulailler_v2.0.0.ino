@@ -55,7 +55,9 @@ void loop() {
   Serial.println(etat); // Affiche l'état initial
   
   if(etat==1){
-    if(reading <= 100) // seuil  en-dessous duquel la porte se ferme
+    // seuil en-dessous duquel la porte se ferme (Ete = 100 || Hiver = 50)
+    //if(reading <= 100)
+    if(reading <= 50)
     {
       Tour = 0 ; // remise à 0 des Tours
       Fermer_porte();
@@ -70,7 +72,9 @@ void loop() {
   }
 
   if(etat==0){
-    if(reading >= 300) // seuil au-dessus duquel la porte ouvre
+    // seuil au-dessus duquel la porte ouvre (Ete = 300 || Hiver = 150)
+    //if(reading >= 300)
+    if(reading >= 150)
     {
       Tour = 0 ; // remise à 0 des Tours
       Ouvrir_porte();
