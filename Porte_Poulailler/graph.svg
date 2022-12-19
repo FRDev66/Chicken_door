@@ -1,0 +1,17 @@
+<svg
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="39" height="165" text-rendering="optimizeLegibility" style="border: 0px; margin: 0px; padding: 0;" id="bit-booster">
+    <path d="M24,35C25,61.25,8,43.75,9,59" stroke-width="2" stroke-opacity="1" opacity="1" fill="none" stroke="#79c753"></path>
+    <path d="M9,131L9,155" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#034f84"></path>
+    <path d="M9,107L9,131" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#034f84"></path>
+    <path d="M9,83L9,107" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#034f84"></path>
+    <path d="M9,59L9,83" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#034f84"></path>
+    <path d="M9,35L9,59" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#034f84"></path>
+    <path d="M24,11L24,35" stroke-width="2" stroke-opacity="1" opacity="1" stroke="#79c753"></path>
+    <circle id="C_47f9eee" cx="9" cy="155" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_bc3d747" cx="9" cy="131" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_2c10eed" cx="9" cy="107" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_6d5905c" cx="9" cy="83" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_2dc565a" cx="9" cy="59" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_db07af7" cx="9" cy="35" r="4" fill="#034f84" stroke="none"></circle>
+    <circle id="C_6976b9f" cx="24" cy="11" r="4" fill="#79c753" stroke="none"></circle>
+</svg>
