@@ -41,6 +41,7 @@ void loop() {
   
   int reading  = analogRead(lightPin); // Lecture de la PhotoRésistance
   Serial.println(reading);
+  delay(10000);
   
   // Si lumière (Lumix) > 300 ==> Ouverture de la Porte
   if(reading >= 300) {
