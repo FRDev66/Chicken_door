@@ -7,117 +7,60 @@
 // + Cellule photorésistance
 //####################################################################
 // Auteur : FRDev66
-// Date : 2022-08-10
-// version :2.0.1
+// Date : 2023-07-01
+// version :3.0.0
 // 
 // ChangeLog :
-// + [2.0.1] : Modification du nombre de Tours de rotation Ouvrir / Ferme du moteur --> de 4 à 6 Tours
+// + [3.0.0 : Modification du type de moteur : Pas à Pas --> Servo
 // 
 // ###################################################################
 
-// Inclut la bibliothèque Arduino Stepper.h:
-//#include <Stepper.h>
+// Liste Bibliothèques utiles
+#include <Servo.h>
 
-// Définit le nombre de pas par rotation:
-const int stepsPerRevolution = 2048;
-
-int MotorPin1= 8; // Déclaration broche commande Bobine 1 moteur
-int MotorPin2= 9; // Déclaration broche commande Bobine 2 moteur
-int MotorPin3= 10; // Déclaration broche commande Bobine 3 moteur
-int MotorPin4= 11; // Déclaration broche commande Bobine 4 moteur
+// Déclaration Constantes & Variables
 int Tour=0; // Déclaration variable pour gérer le nombre de tours du moteur
 int delayTime=5; // Vitesse d'ouverture et fermeture de la porte
+int etat = 0; // Initialisation de l'Etat (A voir si utile ?)
 
-int lightPin = 0;
-int etat = 0;
+// Déclaration des Broches (PIN) utilisés
+int lightPin = 0; // Pin de branchement de la cellule Photorésistance = A0
 
-// Créez un objet stepper appelé ‘myStepper’, notez l’ordre des broches:
-//Stepper myStepper = Stepper ( stepsPerRevolution, 8, 10, 9, 11 ) ;
+// Déclaration Transverse
+Servo myservo; // Déclaration Constante Servo Moteur
+
 
 void setup() {
-Serial.begin(9600); // Ouverture du port série et debit de communication fixé à 9600 bauds
+  Serial.begin(9600); // Ouverture du port série et debit de communication fixé à 9600 bauds
 
-// Réglez la vitesse sur 5 tr / min:
-//myStepper. setSpeed ( 20 ) ;
-
-pinMode(MotorPin1, OUTPUT); // Pin 8 de l'arduino en sortie digitale
-pinMode(MotorPin2, OUTPUT); // Pin 9 de l'arduino en sortie digitale
-pinMode(MotorPin3, OUTPUT); // Pin 10 de l'arduino en sortie digitale
-pinMode(MotorPin4, OUTPUT); // Pin 11 de l'arduino en sortie digitale
+  myservo.attach(9); // PIN de branchement Digital du Servo Moteur = 9
+  myservo.write(0); // move servos to center position -> 90°
 }
 
 void loop() {
-
-  int reading  = analogRead(lightPin); // lecture de la valeur de la Photorésistance (Lumix)
+  
+  int reading  = analogRead(lightPin); // Lecture de la PhotoRésistance
   Serial.println(reading);
   
-  //Serial.println(Tour);
-  Serial.println(etat); // Affiche l'état initial
-  
-  if(etat==1){
-    // seuil en-dessous duquel la porte se ferme (Ete = 100 || Hiver = 50)
-    //if(reading <= 100)
-    if(reading <= 50)
-    {
-      Tour = 0 ; // remise à 0 des Tours
-      Fermer_porte();
-      //Serial.println("Porte fermée");
-      //etat = 0;
-      //delay(3600000);
-      delay(600000);
-    }
-    else {
-      delay(900000);
-    }
+  // Si lumière (Lumix) > 300 ==> Ouverture de la Porte
+  if(reading >= 300) {
+    Ouvrir_porte();
+    delay(6000);
   }
 
-  if(etat==0){
-    // seuil au-dessus duquel la porte ouvre (Ete = 300 || Hiver = 150)
-    //if(reading >= 300)
-    if(reading >= 150)
-    {
-      Tour = 0 ; // remise à 0 des Tours
-      Ouvrir_porte();
-      //Serial.println("Porte ouverte");
-      //etat = 1;
-      //delay(3600000);
-      delay(600000);
-    }
-    else {
-      delay(900000);
-    }
+  // Si lumière (Lumix) < 50 ==> Fermeture de la Porte
+  if(reading <= 50) {
+    Fermer_porte();
+    delay(9000);
   }
 }
 
 // Séquence d'alimentation normale des bobines du moteur en Full Step
 void Fermer_porte(){
   Serial.println(etat);
-  while(Tour <= 3072){ // Equivaut à 6 tours
-    digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
-    digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
-    digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
-    digitalWrite(MotorPin4,LOW); // Bobine 4 du moteur pas à pas au repos
-    delay(delayTime);
-    digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
-    digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
-    digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
-    digitalWrite(MotorPin4,LOW); // Bobine 4 du moteur pas à pas au repos
-    delay(delayTime);
-    digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
-    digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
-    digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
-    digitalWrite(MotorPin4,HIGH); // Alimentation D de la Bobine 4 du moteur pas à pas
-    delay(delayTime);
-    digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
-    digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
-    digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
-    digitalWrite(MotorPin4,HIGH); // Alimentation D de la Bobine 4 du moteur pas à pas
-    delay(delayTime);
-    Serial.println("Fermer porte"); // Affichage sur le moniteur série
-    Tour++;
-  }
+  myservo.write(0);// move servos to center position -> 90°
+
   Serial.println("Porte Fermée"); // Affichage sur le moniteur série
-  Arret();
   etat=0;
   Serial.println(etat); // Affiche Etat après Fermeture de la Porte (doit être 0)
 }
@@ -125,43 +68,10 @@ void Fermer_porte(){
 
 // Séquence d'alimentation inverse des bobines du moteur en Full Step
 void Ouvrir_porte(){
-  while(Tour <= 3072){ // équivaut à 6 tours
-    digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
-    digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
-    digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
-    digitalWrite(MotorPin4,HIGH); // Alimentation D de la Bobine 4 du moteur pas à pas
-    delay(delayTime);
-    
-    digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
-    digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
-    digitalWrite(MotorPin3,HIGH); // Alimentation C de la Bobine 3 du moteur pas à pas
-    digitalWrite(MotorPin4,LOW); // Bobine 4 du moteur pas à pas au repos
-    delay(delayTime);
-    
-    digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
-    digitalWrite(MotorPin2,HIGH); // Alimentation B de la Bobine 2 du moteur pas à pas
-    digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
-    digitalWrite(MotorPin4,LOW); // Bobine 4 du moteur pas à pas au repos
-    delay(delayTime);
-    
-    digitalWrite(MotorPin1,HIGH); // Alimentation A de la Bobine 1 du moteur pas à pas
-    digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
-    digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
-    digitalWrite(MotorPin4,HIGH); // Alimentation D de la Bobine 4 du moteur pas à pas
-    delay(delayTime);
-    Serial.println("Ouvrir porte"); /// Affichage sur le moniteur série du texte
-    Tour++;
-  }
+  myservo.write(180);// move servos to center position -> 90°
+
   Serial.println("Porte Ouverte"); // Affichage sur le moniteur série
-  Arret();
   etat=1;
   Serial.println(etat); // Affiche Etat après Fermeture de la Porte (doit être 1)
 }
 
-// Fonction arrêt du moteur
-void Arret(){
-digitalWrite(MotorPin1,LOW); // Bobine 1 du moteur pas à pas au repos
-digitalWrite(MotorPin2,LOW); // Bobine 2 du moteur pas à pas au repos
-digitalWrite(MotorPin3,LOW); // Bobine 3 du moteur pas à pas au repos
-digitalWrite(MotorPin4,LOW); // Bobine 4 du moteur pas à pas au repos
-}
