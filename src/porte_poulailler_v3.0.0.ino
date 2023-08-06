@@ -73,36 +73,6 @@ void loop() {
     
   }
 
-
-  /* switch (etat)
-  {
-    case 1:
-      if(reading >= 200) {
-      // Fait bouger le bras de 0° à 180°
-        //myServo.write(1);
-        for (unsigned long position = 1500; position <= 2000; position += 500) {
-          myServo.writeMicroseconds(position);
-          delay(15);
-          Serial.println(position);
-        }
-        etat = 0;
-        
-      } else {Serial.println("Pas assez de lumière !!");}
-      break;
-    
-    case 0:
-      if(reading <= 50) {
-      // Fait bouger le bras de 180° à 0°
-        for (unsigned long position = 2500; position >= 1000; position -= 5) {
-          myServo.writeMicroseconds(position);
-          delay(15);
-        }
-        etat = 1;
-      } else {} 
-      break;
-  }
-
-  delay(10000); */
 }
 
 int actionPorte(int action) {
@@ -200,29 +170,3 @@ int modifierEtat(int etat) {
   }
   
 }
-
-
-// Séquence d'alimentation normale des bobines du moteur en Full Step
-// void Fermer_porte() {
-//   Serial.println(etat);
-//   myservo.write(0);// move servos to center position -> 90°
-
-//   Serial.println("Porte Fermée"); // Affichage sur le moniteur série
-//   //etat=0;
-//   Serial.print("Etat = ");
-//   Serial.println(etat); // Affiche Etat après Fermeture de la Porte (doit être 0)
-// }
-
-// // Séquence d'alimentation inverse des bobines du moteur en Full Step
-// void Ouvrir_porte() {
-//   Serial.println("Ouverture Porte...");
-//   myservo.write(30);// move servos to center position -> 90°
-  
-//   Serial.println("Porte Ouverte"); // Affichage sur le moniteur série
-//   //etat=1;
-//   Serial.print("Etat = ");
-//   Serial.println(etat); // Affiche Etat après Fermeture de la Porte (doit être 1)
-//   Serial.print("Angle = ");
-//   Serial.println(angle);
-// }
-
