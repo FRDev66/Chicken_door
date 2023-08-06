@@ -3,15 +3,15 @@
 // selon la luminausité
 // Composants : 
 // + Arduino UNO
-// + Moteur DC
+// + Servo Moteur MG996R
 // + Cellule photorésistance
 //####################################################################
 // Auteur : FRDev66
-// Date : 2023-07-01
+// Date : 2023-08-06
 // version :3.0.0
 // 
 // ChangeLog :
-// + [3.0.0 : Modification du type de moteur : Pas à Pas --> Servo
+// + [3.0.0 : Modification du type de moteur : Pas à Pas --> Servo Moteur
 // 
 // ###################################################################
 
@@ -19,19 +19,13 @@
 #include <Servo.h>
 
 // Déclaration Constantes & Variables
-//int Tour=0; // Déclaration variable pour gérer le nombre de tours du moteur
-//int delayTime=5; // Vitesse d'ouverture et fermeture de la porte
-//int etat = 9; // Initialisation de l'Etat (A voir si utile ?)
-int action = 9;
-int etat = 0;
-int etatPorte = 9;
-//int angle = 0;
-//int temps = 1500; // censée être à mi-chemin entre 1000 et 2000, un bon point de départ
-//unsigned long delayTime;
-unsigned long tempoDepart = 0;
+int action = 9; // Initialisation de la Variable liée au Type d'Action à effectuer (3 = Rien / 1 = Ouverture Porte / 2 = Fermeture Porte)
+int etat = 0; // Initialisation de la Variable liée au déclenchement des Actions Porte (0 = Ouverture / 1 = Fermeture)
+int etatPorte = 9; // Initalisation de la Variable de l'Etat Actuel de la Porte (0 = Porte Fermée / 1 = Porte Ouverte / 9 = défaut)
 
-//#define servoPin 9
-#define tempoMesures 10000 // Délai entre 2 Mesures Statiques (temp / humidité / presssion - en millisecondes - 15 minutes)
+unsigned long tempoDepart = 0; // Définition de la Variable de déclenchement d'une mesure
+
+#define tempoMesures 10000 // Délai entre 2 Mesures Statiques de luminosité (lumix)
 
 // Déclaration des Broches (PIN) utilisés
 int lightPin = 0; // Pin de branchement de la cellule Photorésistance = A0
@@ -42,25 +36,15 @@ Servo myServo; // Déclaration Constante Servo Moteur
 void setup() {
   Serial.begin(115200); // Ouverture du port série et debit de communication fixé à 9600 bauds
 
-  //myServo.attach(9, 400, 2550); // PIN de branchement Digital du Servo Moteur = 9
-  //myServo.attach(9);
-  //myServo.write(0);
-  //delay(1000);
-  //myServo.detach();
 }
 
 void loop() {
   
-  //Serial.println("tempoDepart =");
-  //Serial.print(tempoDepart);
-
   // Toutes les 30 minutes ==> Lancer une phase de Mesures Statiques
   if ( millis() - tempoDepart >= tempoMesures ) {
     int reading = niveauLumix();
     afficherLumix(reading);
-    //int etat = valeurEtat();
-    //afficherEtat(etat);
-    
+   
 
     int action = choixActionPorte(reading,etat); // Détermine quelle action sera effectuée
     Serial.print("Valeur action = ");
