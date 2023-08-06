@@ -43,7 +43,10 @@ void setup() {
   Serial.begin(115200); // Ouverture du port série et debit de communication fixé à 9600 bauds
 
   //myServo.attach(9, 400, 2550); // PIN de branchement Digital du Servo Moteur = 9
-  //myServo.attach(9); 
+  //myServo.attach(9);
+  //myServo.write(0);
+  //delay(1000);
+  //myServo.detach();
 }
 
 void loop() {
@@ -80,7 +83,7 @@ int actionPorte(int action) {
     case 1 :
       myServo.attach(9); 
       myServo.write(180);
-      delay(1000);
+      delay(900);
       myServo.detach();
       etatPorte = 1;
       return etatPorte;
