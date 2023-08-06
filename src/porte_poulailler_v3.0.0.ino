@@ -82,15 +82,15 @@ int actionPorte(int action) {
   switch (action) {
     case 1 :
       myServo.attach(9); 
-      myServo.write(180);
-      delay(900);
+      myServo.write(0);
+      delay(1000);
       myServo.detach();
       etatPorte = 1;
       return etatPorte;
       break;
     case 2 :
       myServo.attach(9); 
-      myServo.write(0);
+      myServo.write(180);
       delay(1000);
       myServo.detach();
       etatPorte = 0;
