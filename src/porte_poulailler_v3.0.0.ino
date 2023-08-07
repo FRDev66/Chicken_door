@@ -19,7 +19,7 @@
 #include <Servo.h>
 
 // Déclaration Constantes & Variables
-int action = 9; // Initialisation de la Variable liée au Type d'Action à effectuer (3 = Rien / 1 = Ouverture Porte / 2 = Fermeture Porte)
+int action = 9; // Initialisation de la Variable liée au Type d'Action à effectuer (3 = Rien / 1 = Ouverture Porte / 2 = Fermeture Porte / 4 = Rien Porte fermé)
 int etat = 0; // Initialisation de la Variable liée au déclenchement des Actions Porte (0 = Ouverture / 1 = Fermeture)
 int etatPorte = 9; // Initalisation de la Variable de l'Etat Actuel de la Porte (0 = Porte Fermée / 1 = Porte Ouverte / 9 = défaut)
 
@@ -84,6 +84,10 @@ int actionPorte(int action) {
       etatPorte = 1;
       return etatPorte;
       break;
+    case 4 :
+      etatPorte = 0;
+      return etatPorte;
+      break;
     default :
       etatPorte = 9;
       return etatPorte; 
@@ -100,7 +104,7 @@ int choixActionPorte(int lumix, int etat) {
         return action;
       } else {
         Serial.println("NE RIEN FAIRE !! - Laisser Porte fermée");
-        int action = 0;
+        int action = 4;
         return action;
       }
       break;
